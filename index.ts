@@ -60,8 +60,14 @@ if (inputdir == undefined) {
     fs.readdir(inputdir, (err:any, files:any) => {
       files.forEach(file => {
         if(!filesscanned.find(element => element == file)) {
-          console.log(file);
-          ch1.sendToQueue(queue, Buffer.from(file));
+          let messagetostore = {
+            "storagetype":"file",
+            "directory":inputdir,
+            "file":file
+          }
+
+          console.log(JSON.stringify(messagetostore));
+          ch1.sendToQueue(queue, Buffer.from(JSON.stringify(messagetostore)));
           filesscanned.push(file);
         }
       })
